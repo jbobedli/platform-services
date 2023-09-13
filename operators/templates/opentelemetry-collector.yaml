@@ -1,0 +1,22 @@
+{{- if  .Values.opentelemetry.enabled }}
+{{ $opentelemetry := .Values.opentelemetry }}
+{{ $global := .Values.global }}
+{{- range $namespace := .Values.opentelemetry.namespaces }}
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    operators.coreos.com/opentelemetry-product.distributed-tracing: ''
+  name: opentelemetry-product
+  namespace: {{ $namespace.name }}
+spec:
+  channel: {{ default "stable" $opentelemetry.channel }}
+  installPlanApproval: {{ $namespace.approvalPlan | default $global.approvalPlan }}
+  name: opentelemetry-product
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  {{- if  $namespace.startingCSV }}
+  startingCSV: {{ $namespace.startingCSV }}
+  {{- end }}
+{{- end }} # range
+{{- end }} # if enabled
