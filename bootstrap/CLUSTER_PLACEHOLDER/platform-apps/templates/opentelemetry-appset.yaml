@@ -1,0 +1,36 @@
+{{- if  .Values.opentelemetry.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: opentelemetry-appset
+  namespace: openshift-gitops
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: "{{ .Values.cluster }}"
+            url: https://kubernetes.default.svc
+            repoURL: "{{ .Values.repoUrl }}"
+            appName: opentelemetry
+            project: platform-gitops
+            targetNamespace: distributed-tracing
+  template:
+    metadata:
+      name: '{{"{{appName}}"}}-{{"{{cluster}}"}}'
+    spec:
+      #      syncPolicy:
+      #        automated:
+      #          prune: true
+      #          selfHeal: true
+      project: '{{"{{project}}"}}'
+      source:
+        repoURL: '{{"{{repoURL}}"}}'
+        targetRevision: master
+        path: 'helm/{{"{{appName}}"}}/'
+        helm:
+          valueFiles:
+            - values-{{"{{cluster}}"}}.yaml
+      destination:
+        server: '{{"{{url}}"}}'
+        namespace: '{{"{{targetNamespace}}"}}'
+{{- end }}

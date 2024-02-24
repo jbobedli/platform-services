@@ -1,0 +1,36 @@
+cluster: CLUSTER_PLACEHOLDER
+repoUrl: https://github.com/NTTData-HybridCloud/platform-services-resources
+repoUrlCimages: https://github.com/NTTData-HybridCloud/platform-services-resources
+
+etcdbackup:
+  enabled: false
+alerts:
+  enabled: false
+applicationapps:
+  enabled: true
+customimages:
+  enabled: true
+images:
+  enabled: true
+istio:
+  enabled: true
+kyverno:
+  enabled: true
+  policies:
+    enabled: true
+namespaces:
+  enabled: true
+networkpolicies:
+  enabled: true
+rhsso:
+  enabled: true
+sealedsecrets:
+  enabled: false
+serviceaccounts:
+  enabled: true
+sonarqube:
+  enabled: false
+descheduler:
+  enabled: false
+opentelemetry:
+  enabled: false

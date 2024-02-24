@@ -1,0 +1,32 @@
+{{- if .Values.etcdbackup.enabled}}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: etcd-backup-appset
+  namespace: openshift-gitops
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: "{{ .Values.cluster }}"
+            url: https://kubernetes.default.svc
+            repoURL: "{{ .Values.repoUrl }}"
+            appName: etcd-backup
+            project: platform-gitops
+            targetNamespace: backup-etcd
+  template:
+    metadata:
+      name: '{{"{{appName}}"}}-{{"{{cluster}}"}}'
+    spec:
+      project: '{{"{{project}}"}}'
+      source:
+        repoURL: '{{"{{repoURL}}"}}'
+        targetRevision: master
+        path: 'helm/{{"{{appName}}"}}/'
+        helm:
+          valueFiles:
+            - values-{{"{{cluster}}"}}.yaml
+      destination:
+        server: '{{"{{url}}"}}'
+        namespace: '{{"{{targetNamespace}}"}}'
+{{- end }}
