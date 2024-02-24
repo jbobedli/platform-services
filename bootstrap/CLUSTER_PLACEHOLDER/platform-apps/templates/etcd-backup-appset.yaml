@@ -21,7 +21,7 @@ spec:
       project: '{{"{{project}}"}}'
       source:
         repoURL: '{{"{{repoURL}}"}}'
-        targetRevision: master
+        targetRevision: {{ .Values.targetRevision | default "master" | quote }}
         path: 'helm/{{"{{appName}}"}}/'
         helm:
           valueFiles:

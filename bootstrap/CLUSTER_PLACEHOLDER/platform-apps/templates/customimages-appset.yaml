@@ -10,8 +10,8 @@ spec:
         generators:
           - list:
               elements:
-                - cluster: {{ .Values.cluster }}
-                  repoURL: 'https://github.com/NTTData-HybridCloud/custom-images'
+                - cluster: "{{ .Values.cluster }}"
+                  repoURL: "{{ .Values.repoUrlCimages }}"
                   url: 'https://kubernetes.default.svc'
                   project: platform-gitops
           - list:
@@ -29,7 +29,7 @@ spec:
       project: '{{"{{project}}"}}'
       source:
         repoURL: '{{"{{repoURL}}"}}'
-        targetRevision: master
+        targetRevision: {{ .Values.targetRevision | default "master" | quote }}
         path: '.'
         helm:
           releaseName: '{{"{{appName}}"}}'

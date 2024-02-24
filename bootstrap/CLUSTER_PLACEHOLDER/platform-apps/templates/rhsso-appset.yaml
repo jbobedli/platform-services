@@ -10,36 +10,11 @@ spec:
         generators:
           - list:
               elements:
-                - repoURL: 'https://github.com/NTTData-HybridCloud/platform-services-resources'
+                - repoURL: "{{ .Values.repoUrl }}"
                   url: 'https://kubernetes.default.svc'
                   project: platform-gitops
-          - list:
-              elements:
-                - appName: rhsso-des-cr
-                  path: des-iam
-                  targetNamespace: des-prueba-iam
-                - appName: rhsso-des-cross-resources
-                  path: des-iam/cross
-                  targetNamespace: des-prueba-iam
-                - appName: rhsso-des-fevi-resources
-                  path: des-iam/fevi
-                  targetNamespace: des-prueba-iam
-                - appName: rhsso-des-iam-resources
-                  path: des-iam/iam
-                  targetNamespace: des-prueba-iam
-                - appName: rhsso-des-imv-resources
-                  path: des-iam/imv
-                  targetNamespace: des-prueba-iam
-                - appName: rhsso-des-ism-resources
-                  path: des-iam/ism
-                  targetNamespace: des-prueba-iam
-                - appName: rhsso-des-pssc-resources
-                  path: des-iam/pssc
-                  targetNamespace: des-prueba-iam
-                - appName: rhsso-des-tbdp-resources
-                  path: des-iam/tbdp
-                  targetNamespace: des-prueba-iam
-
+          - list: 
+              elements: {{ .Values.rhsso.elements | nindent 16 }}
   template:
     metadata:
       name: '{{"{{appName}}"}}'
@@ -50,7 +25,7 @@ spec:
       project: '{{"{{project}}"}}'
       source:
         repoURL: '{{"{{repoURL}}"}}'
-        targetRevision: master
+        targetRevision: {{ .Values.targetRevision | default "master" | quote }}
         path: 'helm/rhsso/'
         helm:
           valueFiles:

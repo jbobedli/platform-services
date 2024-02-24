@@ -20,7 +20,7 @@ spec:
       project: '{{"{{project}}"}}'
       source:
         repoURL: '{{"{{repoURL}}"}}'
-        targetRevision: master
+        targetRevision: {{ .Values.targetRevision | default "master" | quote }}
         path: 'operators/'
         helm:
           valueFiles:

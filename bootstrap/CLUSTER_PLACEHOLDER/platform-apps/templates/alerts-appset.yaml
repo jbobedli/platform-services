@@ -10,7 +10,7 @@ spec:
         generators:
           - list:
               elements:
-                - cluster: "{{ .Values.cluster }}""
+                - cluster: "{{ .Values.cluster }}"
                   repoURL: "{{ .Values.repoUrl }}"
                   url: 'https://kubernetes.default.svc'
                   project: platform-gitops
@@ -29,7 +29,7 @@ spec:
       project: '{{"{{project}}"}}'
       source:
         repoURL: '{{"{{repoURL}}"}}'
-        targetRevision: master
+        targetRevision: {{ .Values.targetRevision | default "master" | quote }}
         path: 'helm/{{"{{appName}}"}}/'
         helm:
           valueFiles:

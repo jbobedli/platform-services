@@ -1,6 +1,6 @@
 cluster: CLUSTER_PLACEHOLDER
 repoUrl: https://github.com/NTTData-HybridCloud/platform-services-resources
-repoUrlCimages: https://github.com/NTTData-HybridCloud/platform-services-resources
+repoUrlCimages: https://github.com/NTTData-HybridCloud/custom-images
 
 etcdbackup:
   enabled: false
@@ -24,6 +24,13 @@ networkpolicies:
   enabled: true
 rhsso:
   enabled: true
+  elements: |-
+    - appName: rhsso-des-cr
+      path: des-iam
+      targetNamespace: des-prueba-iam
+    - appName: rhsso-des-cross-resources
+      path: des-iam/cross
+      targetNamespace: des-prueba-iam
 sealedsecrets:
   enabled: false
 serviceaccounts:
