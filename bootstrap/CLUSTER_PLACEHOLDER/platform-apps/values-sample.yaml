@@ -6,6 +6,8 @@ etcdbackup:
   enabled: false
 alerts:
   enabled: false
+  targetNamespace:
+  - des-prueba
 applicationapps:
   enabled: true
 customimages:

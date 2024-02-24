@@ -17,7 +17,9 @@ spec:
                   appName: alerts
           - list:
               elements:
-                - targetNamespace: des-imv
+{{- range $namespace := .Values.alerts.targetNamespace }}
+                - targetNamespace: {{ $namespace}}
+{{- end }}
   template:
     metadata:
       name: '{{"{{appName}}"}}-{{"{{targetNamespace}}"}}'
