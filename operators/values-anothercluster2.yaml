@@ -1,0 +1,35 @@
+datagrid:
+  enabled: false
+  namespace: bookinfo
+rhsso:
+  enabled: true
+  namespaces:
+    - des-prueba-iam
+pipelines:
+  enabled: false
+  channel: pipelines-1.8
+elasticsearch:
+  enabled: false
+istio:
+  enabled: false
+microcks:
+  enabled: false
+webterminal:
+  enabled: false
+kiali:
+  enabled: false
+jaegger:
+  enabled: false
+amq-broker-rhel8:
+  enabled: false
+  approvalPlan: Manual #By default global.approvalPlan is used.
+global:
+  approvalPlan: Manual
+descheduler:
+  enabled: false
+  namespace: openshift-kube-descheduler-operator
+opentelemetry:
+  enabled: false
+  namespaces:
+    - name: distributed-tracing
+      startingCSV: opentelemetry-operator.v0.74.0-5-0.1687199949.p

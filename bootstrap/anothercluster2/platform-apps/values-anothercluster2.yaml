@@ -1,6 +1,6 @@
-cluster: CLUSTER_PLACEHOLDER
-repoUrl: https://github.com/NTTData-HybridCloud/platform-services-resources
-repoUrlCimages: https://github.com/NTTData-HybridCloud/custom-images
+cluster: anothercluster2
+repoUrl: https://github.com/jbobedli/platform-services-resources
+repoUrlCimages: https://github.com/jbobedli/custom-images
 
 etcdbackup:
   enabled: false
