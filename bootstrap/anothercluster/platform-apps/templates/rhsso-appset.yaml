@@ -1,0 +1,40 @@
+{{- if .Values.rhsso.enabled}}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: rhsso-appset
+  namespace: openshift-gitops
+spec:
+  generators:
+    - matrix: # matrix generator combines TWO sets of parameters introduced by other types of generators
+        generators:
+          - list:
+              elements:
+                - repoURL: "{{ .Values.repoUrl }}"
+                  url: 'https://kubernetes.default.svc'
+                  project: platform-gitops
+          - list: 
+              elements: {{ .Values.rhsso.elements | nindent 16 }}
+  template:
+    metadata:
+      name: '{{"{{appName}}"}}'
+    spec:
+      destination:
+        namespace: '{{"{{targetNamespace}}"}}'
+        server: '{{"{{url}}"}}'
+      project: '{{"{{project}}"}}'
+      source:
+        repoURL: '{{"{{repoURL}}"}}'
+        targetRevision: {{ .Values.targetRevision | default "master" | quote }}
+        path: 'helm/rhsso/'
+        helm:
+          valueFiles:
+            - '{{"{{path}}"}}/values.yaml'
+#      syncPolicy:
+#        automated:
+#          prune: true
+#          selfHeal: true
+#        syncOptions:
+#          - ApplyOutOfSyncOnly=true
+#          - RespectIgnoreDifferences=true
+{{- end }}

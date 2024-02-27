@@ -1,0 +1,37 @@
+{{- if .Values.sonarqube.enabled}}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: sonarqube-appset
+  namespace: openshift-gitops
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: "{{ .Values.cluster }}"
+            url: https://kubernetes.default.svc
+            repoURL: "{{ .Values.repoUrl }}"
+            targetNamespace: cicd
+            appName: sonarqube
+            project: platform-gitops
+  template:
+    metadata:
+      name: '{{"{{appName}}"}}-{{"{{cluster}}"}}'
+    spec:
+      #      syncPolicy:
+      #        automated:
+      #          prune: true
+      #          selfHeal: true
+      project: '{{"{{project}}"}}'
+      source:
+        repoURL: '{{"{{repoURL}}"}}'
+        targetRevision: {{ .Values.targetRevision | default "master" | quote }}
+        path: 'helm/{{"{{appName}}"}}/'
+        helm:
+          valueFiles:
+            - values-base.yaml
+            - values-{{"{{cluster}}"}}.yaml
+      destination:
+        namespace: '{{"{{targetNamespace}}"}}'
+        server: '{{"{{url}}"}}'
+{{- end }}

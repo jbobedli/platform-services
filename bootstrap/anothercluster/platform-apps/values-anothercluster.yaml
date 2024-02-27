@@ -1,0 +1,45 @@
+cluster: anothercluster
+repoUrl: https://github.com/jbobedli/platform-services-resources
+repoUrlCimages: https://github.com/jbobedli/custom-images
+
+etcdbackup:
+  enabled: false
+alerts:
+  enabled: false
+  targetNamespace:
+  - des-prueba
+applicationapps:
+  enabled: true
+customimages:
+  enabled: true
+images:
+  enabled: true
+istio:
+  enabled: true
+kyverno:
+  enabled: true
+  policies:
+    enabled: true
+namespaces:
+  enabled: true
+networkpolicies:
+  enabled: true
+rhsso:
+  enabled: true
+  elements: |-
+    - appName: rhsso-des-cr
+      path: des-iam
+      targetNamespace: des-prueba-iam
+    - appName: rhsso-des-cross-resources
+      path: des-iam/cross
+      targetNamespace: des-prueba-iam
+sealedsecrets:
+  enabled: false
+serviceaccounts:
+  enabled: true
+sonarqube:
+  enabled: false
+descheduler:
+  enabled: false
+opentelemetry:
+  enabled: false
